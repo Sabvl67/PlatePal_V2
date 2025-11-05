@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: platepal_db
+    restart: always
+    environment:
+      POSTGRES_USER: platepal
+      POSTGRES_PASSWORD: platepal_pw
+      POSTGRES_DB: platepal_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - platepal_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U platepal -d platepal_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  platepal_pgdata:
